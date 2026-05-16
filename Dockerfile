@@ -1,4 +1,4 @@
-FROM php:8.2-cli
+FROM php:8.4-cli
 
 RUN apt-get update && apt-get install -y unzip git curl sqlite3 libsqlite3-dev libzip-dev libpng-dev libonig-dev libxml2-dev zip nodejs npm && docker-php-ext-install zip mbstring exif pcntl bcmath
 
@@ -8,20 +8,15 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install
 RUN npm run build
 
 RUN touch database/database.sqlite
 
-RUN mkdir -p storage/framework/cache
-RUN mkdir -p storage/framework/sessions
-RUN mkdir -p storage/framework/views
-RUN mkdir -p bootstrap/cache
-
-RUN chmod -R 777 storage
-RUN chmod -R 777 bootstrap/cache
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+RUN chmod -R 777 storage bootstrap/cache
 
 EXPOSE 10000
 
