@@ -1,17 +1,18 @@
 FROM php:8.2-cli
 
-RUN apt-get update && apt-get install -y \
-unzip \
-git \
-curl \
-sqlite3 \
-libsqlite3-dev \
-libpng-dev \
-libonig-dev \
-libxml2-dev \
-zip \
-nodejs \
-npm \
+RUN apt-get update && apt-get install -y\
+unzip\
+git\
+curl\
+sqlite3\
+libsqlite3-dev\
+libzip-dev\
+libpng-dev\
+libonig-dev\
+libxml2-dev\
+zip\
+nodejs\
+npm\
 && docker-php-ext-install pdo pdo_sqlite zip mbstring exif pcntl bcmath
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
