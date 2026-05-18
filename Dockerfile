@@ -14,7 +14,6 @@ WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
-RUN php artisan optimize:clear
 
 EXPOSE 8080
 
