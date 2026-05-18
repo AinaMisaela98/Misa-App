@@ -185,7 +185,7 @@ Route::resource('series', SerieController::class);
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Auth/Login');
 });
 
 /*
