@@ -1,6 +1,8 @@
 FROM php:8.4-cli
 
-RUN apt-get update && apt-get install -y unzip git curl sqlite3 libsqlite3-dev libzip-dev libpng-dev libonig-dev libxml2-dev zip nodejs npm && docker-php-ext-install zip mbstring exif pcntl bcmath
+RUN apt-get update && apt-get install -y \
+    git unzip libpq-dev libzip-dev zip curl \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -8,16 +10,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install --no-dev --optimize-autoloader
 
-RUN npm install
-RUN npm run build
+EXPOSE 8080
 
-RUN touch database/database.sqlite
-
-RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
-RUN chmod -R 777 storage bootstrap/cache
-
-EXPOSE 10000
-
-CMD php artisan migrate --force && php artisan storage:link && php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php -S 0.0.0.0:10000 -t public
+CMD php -S 0.0.0.0:8080 -t publics
