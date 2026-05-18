@@ -18,6 +18,10 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\ReinscriptionController;
 use App\Http\Controllers\ParametreMatriculeController;
 use App\Http\Controllers\AnneeScolaireController;
+
+Route::get('/admin', function () {
+    return Inertia::render('Admin/Index');
+})->middleware('auth')->name('admin.index');
 /*
 |--------------------------------------------------------------------------
 | PARAMÈTRES MATRICULE
