@@ -13,6 +13,7 @@ WORKDIR /app
 
 COPY . .
 RUN composer install --no-dev --optimize-autoloader
+RUN echo "force rebuild welcome fix"
 RUN npm install && npm run build
 
 EXPOSE 8080
